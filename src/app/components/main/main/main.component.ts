@@ -17,15 +17,18 @@ export class MainComponent implements OnInit {
 
   chats:Chat[] = []
   currentChat:Chat
+  userId:number
   messageForm:FormGroup
 
   constructor(private chatService: ChatService,
     private messageService: MessageService,
-    private formBuilder:FormBuilder) { }
+    private formBuilder:FormBuilder,
+    private authService: AuthService) { }
 
   ngOnInit(): void {
     this.getChats()
     this.createMessageForm()
+    this.userId = this.authService.getUserId();
   }
 
   getChats(){
@@ -52,6 +55,14 @@ export class MainComponent implements OnInit {
 
   selectChat(chat:Chat){
     this.currentChat = chat
+  }
+
+
+  messageBoxClass(userId:number){
+    if (userId == this.userId){
+      return "chat-message-right pb-4"
+    }
+    return "chat-message-left pb-4"
   }
 
 }

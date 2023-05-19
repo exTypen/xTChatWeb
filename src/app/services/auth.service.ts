@@ -17,6 +17,7 @@ import { OperationClaim } from '../models/auth-models/operationClaim';
 export class AuthService {
   userName: string;
   userEmail: string
+  userId: number
   roles: string[] = [];
   apiUrl = "https://localhost:7165/api/"
   jwtHelper:JwtHelperService = new JwtHelperService();
@@ -80,6 +81,7 @@ export class AuthService {
     if(this.loggedIn()){
       this.setUserEmail()
       this.setUserName()
+      this.setUserId()
     }
   }
 
@@ -98,6 +100,9 @@ export class AuthService {
     return this.userName;
   }
 
+  getUserId(): number{
+    return this.userId;
+  }
 
   logOut() {
     this.storageService.removeToken();
@@ -126,6 +131,14 @@ export class AuthService {
 
   getUserEmail():string{
     return this.userEmail
+  }
+
+  setUserId() {
+    var decoded = this.getDecodedToken();
+    var propUserId = Object.keys(decoded).filter((x) =>
+      x.endsWith('/nameidentifier')
+    )[0];
+    this.userId = Number(decoded[propUserId]);
   }
 
 }
