@@ -1,1 +1,21 @@
-main
+<div *ngIf="chats.length" style="padding-left: 10px; padding-right: 10px;">
+    <div class="row">
+        <div class="col-md-3">
+            <div (click)="selectChat(chat)" class="card" *ngFor="let chat of chats">
+                {{chat.displayName}}
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div style="margin-bottom: 20px;" class="card" *ngFor="let message of currentChat.messages">
+                {{message.text}}/{{message.senderId}}
+            </div>
+            <div class="row">
+                <form [formGroup]="messageForm">
+                    <div class="col-md-11"><input type="text" class="form-control" formControlName="text"></div>
+                </form>
+                <div class="col-md-1"><button (click)="sendMessage()" class="btn btn-primary">Send</button></div>
+            </div>
+            
+        </div>
+    </div>
+</div>

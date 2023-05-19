@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { LoginModel } from 'src/app/models/loginModel';
+import { LoginModel } from 'src/app/models/auth-models/loginModel';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({

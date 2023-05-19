@@ -4,12 +4,12 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { LocalStorageService } from './local-storage.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
-import { TokenModel } from '../models/tokenModel';
+import { TokenModel } from '../models/auth-models/tokenModel';
 import { SingleResponseModel } from '../models/response-models/singleResponseModel';
-import { LoginModel } from '../models/loginModel';
-import { RegisterModel } from '../models/registerModel';
+import { LoginModel } from '../models/auth-models/loginModel';
+import { RegisterModel } from '../models/auth-models/registerModel';
 import { ListResponseModel } from '../models/response-models/listResponseModel';
-import { OperationClaim } from '../models/operationClaim';
+import { OperationClaim } from '../models/auth-models/operationClaim';
 
 @Injectable({
   providedIn: 'root'

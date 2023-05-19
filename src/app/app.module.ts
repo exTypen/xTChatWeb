@@ -13,7 +13,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import { MainComponent } from './components/main/main/main.component';
-import { ChatComponent } from './components/main/chat/chat.component';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -23,8 +23,7 @@ export function tokenGetter() {
   declarations: [
     AppComponent,
     LoginComponent,
-    MainComponent,
-    ChatComponent
+    MainComponent
   ],
   imports: [
     BrowserModule,
@@ -42,7 +41,7 @@ export function tokenGetter() {
       positionClass: 'toast-bottom-right',
     }),
   ],
-  providers: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
