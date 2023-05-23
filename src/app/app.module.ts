@@ -15,9 +15,11 @@ import { LoginComponent } from './components/auth/login/login.component';
 import { MainComponent } from './components/main/main/main.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 
+
 export function tokenGetter() {
   return localStorage.getItem("token");
 }
+
 
 @NgModule({
   declarations: [

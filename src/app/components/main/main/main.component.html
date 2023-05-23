@@ -1,24 +1,12 @@
-<div class="card">
-  <div class="row g-0">
-    <div class="col-12 col-lg-5 col-xl-3 border-right">
-      <div class="px-4 d-none d-md-block">
-        <div class="d-flex align-items-center">
-          <div class="flex-grow-1">
-            <input
-              type="text"
-              class="form-control my-3"
-              placeholder="Search..."
-            />
-          </div>
-        </div>
-      </div>
-
-      <div
-        (click)="selectChat(chat)"
-        *ngFor="let chat of chats"
-        class="list-group-item list-group-item-action border-0"
-        style="cursor: pointer;"
-      >
+<div class="row g-0" style="height: 100%">
+  <div class="col-12 col-lg-5 col-xl-3 border-right">
+    <div
+      (click)="selectChat(chat)"
+      *ngFor="let chat of chats"
+      class="list-group-item list-group-item-action border-0"
+      style="cursor: pointer"
+    >
+      <div class="card">
         <div class="d-flex align-items-start">
           <img
             src="https://www.yeniliknakliyat.com/wp-content/uploads/2022/01/pp.png"
@@ -29,34 +17,42 @@
           <div class="flex-grow-1 ml-3">
             {{ chat.displayName }}
           </div>
+          <div>
+            {{ chat.lastUpdate | date : "HH:mm" }}
+          </div>
         </div>
       </div>
-
-      <hr class="d-block d-lg-none mt-1 mb-0" />
     </div>
-    <div class="col-12 col-lg-7 col-xl-9">
-      <div class="py-2 px-4 border-bottom d-none d-lg-block">
-        <div class="d-flex align-items-center py-1">
-          <div class="position-relative">
-            <img
-              src="https://www.yeniliknakliyat.com/wp-content/uploads/2022/01/pp.png"
-              class="rounded-circle mr-1"
-              width="40"
-              height="40"
-            />
-          </div>
-          <div class="flex-grow-1 pl-3">
-            <strong>{{ currentChat.displayName }}</strong>
-          </div>
+
+    <hr class="d-block d-lg-none mt-1 mb-0" />
+  </div>
+  <div *ngIf="currentChat" class="col-12 col-lg-7 col-xl-9">
+    <div class="py-2 px-4 border-bottom d-none d-lg-block">
+      <div class="d-flex align-items-center py-1">
+        <div class="position-relative">
+          <img
+            src="https://www.yeniliknakliyat.com/wp-content/uploads/2022/01/pp.png"
+            class="rounded-circle mr-1"
+            width="40"
+            height="40"
+          />
+        </div>
+        <div class="flex-grow-1 pl-3">
+          <strong>{{ currentChat.displayName }}</strong>
         </div>
       </div>
+    </div>
 
-      <div class="position-relative">
-        <div class="chat-messages p-4">
-          <div
-            *ngFor="let message of currentChat.messages"
-            [class]="messageBoxClass(message.senderId)"
-          >
+    <div class="position-relative">
+      <div
+        style="overflow-y: scroll; max-height: 600px"
+        class="chat-messages p-4"
+        id="overflow"
+      >
+        <div *ngFor="let message of currentChat.messages">
+          <div *ngIf="findIndexOfMessage(message) == 1">{{turnDate(message.sendTime).getDate() + " " + turnDate(message.sendTime).toLocaleDateString('tr-TR', { month: 'long'}) }}</div>
+          <div *ngIf="turnDate(message.sendTime).getDate() != turnDate(currentChat.messages[findIndexOfMessage(message)-1].sendTime).getDate() ? true : false">{{ turnDate(message.sendTime).getDate() + " " + turnDate(message.sendTime).toLocaleDateString('tr-TR', { month: 'long'}) }}</div>
+          <div [class]="messageBoxClass(message.senderId)">
             <div>
               <img
                 src="https://www.yeniliknakliyat.com/wp-content/uploads/2022/01/pp.png"
@@ -64,28 +60,32 @@
                 width="40"
                 height="40"
               />
-              <div class="text-muted small text-nowrap mt-2">2:33 am</div>
+              <div class="text-muted small text-nowrap mt-2">
+                {{ message.sendTime | date : "HH:mm" }}
+              </div>
             </div>
             <div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
               {{ message.text }}
             </div>
           </div>
+
+          
         </div>
       </div>
+    </div>
 
-      <div class="flex-grow-0 py-3 px-4 border-top">
-        <form [formGroup]="messageForm">
-          <div class="input-group">
-            <input
-              type="text"
-              class="form-control"
-              formControlName="text"
-              placeholder="Mesajınızı yazın"
-            />
-            <button (click)="sendMessage()" class="btn btn-primary">></button>
-          </div>
-        </form>
-      </div>
+    <div class="flex-grow-0 py-3 px-4 border-top">
+      <form [formGroup]="messageForm">
+        <div class="input-group">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="text"
+            placeholder="Mesajınızı yazın"
+          />
+          <button (click)="sendMessage()" class="btn btn-primary">></button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

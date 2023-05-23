@@ -10,6 +10,7 @@ export class ChatService {
   apiUrl = "https://localhost:7165/api/chats/"
   constructor(private httpClient:HttpClient) { }
 
+
   getAllDtos(){
     let url = this.apiUrl + "getalldtos"
     return this.httpClient.get<ListResponseModel<Chat>>(url)
