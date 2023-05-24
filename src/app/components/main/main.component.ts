@@ -1,7 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
-import { LoginModel } from 'src/app/models/auth-models/loginModel';
 import { Chat } from 'src/app/models/chat';
 import { Message } from 'src/app/models/message';
 import { AuthService } from 'src/app/services/auth.service';
@@ -15,13 +13,11 @@ import { io } from 'socket.io-client';
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
-
   chats:Chat[] = []
   currentChat:Chat
   userId:number
   messageForm:FormGroup
   socket: any;
-  today:any
   constructor(private chatService: ChatService,
     private messageService: MessageService,
     private formBuilder:FormBuilder,
@@ -72,8 +68,9 @@ export class MainComponent implements OnInit {
   }
 
   showDate(message:Message){  
-    if(this.today != new Date(message.sendTime).getDate()){
-      this.today = new Date(message.sendTime).getDate()
+    if(this.currentChat.messages.findIndex(m=>m.id == message.id) == 0){
+      return true
+    }else if(new Date(message.sendTime).getDate() != new Date(this.currentChat.messages[this.currentChat.messages.findIndex(m=>m.id == message.id) -1 ].sendTime).getDate()){
       return true
     }
     return false
@@ -81,12 +78,5 @@ export class MainComponent implements OnInit {
 
   turnDate(time:any){
     return new Date(time)
-  }
-
-  findIndexOfMessage(message:Message){
-    if(this.currentChat.messages.findIndex(m=>m.id == message.id) == 0){
-      return 1
-    }
-    return this.currentChat.messages.findIndex(m=>m.id == message.id)
   }
 }

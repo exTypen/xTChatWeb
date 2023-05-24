@@ -12,7 +12,7 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/auth/login/login.component';
-import { MainComponent } from './components/main/main/main.component';
+import { MainComponent } from './components/main/main.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 
