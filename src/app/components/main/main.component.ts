@@ -5,7 +5,6 @@ import { Message } from 'src/app/models/message';
 import { AuthService } from 'src/app/services/auth.service';
 import { ChatService } from 'src/app/services/chat.service';
 import { MessageService } from 'src/app/services/message.service';
-import { io } from 'socket.io-client';
 
 @Component({
   selector: 'app-main',
