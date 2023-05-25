@@ -7,12 +7,12 @@ import { Chat } from '../models/chat';
   providedIn: 'root'
 })
 export class ChatService {
-  apiUrl = "https://localhost:7165/api/chats/"
+  apiUrl = "api/chats"
   constructor(private httpClient:HttpClient) { }
 
 
   getAllDtos(){
-    let url = this.apiUrl + "getalldtos"
+    let url = this.apiUrl + "/getalldtos"
     return this.httpClient.get<ListResponseModel<Chat>>(url)
   }
 }

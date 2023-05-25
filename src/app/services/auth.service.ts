@@ -19,7 +19,7 @@ export class AuthService {
   userEmail: string
   userId: number
   roles: string[] = [];
-  apiUrl = "https://localhost:7165/api/"
+  apiUrl = "api/auth"
   jwtHelper:JwtHelperService = new JwtHelperService();
 
   constructor(
@@ -33,7 +33,7 @@ export class AuthService {
 
 
   login(loginModel:LoginModel){
-    let newPath = this.apiUrl + "auth/login"
+    let newPath = this.apiUrl + "/login"
     this.httpClient
     .post<SingleResponseModel<TokenModel>>(newPath,loginModel).subscribe(response => {
       if(response.success){
@@ -51,7 +51,7 @@ export class AuthService {
   }
 
   register(registerModel:RegisterModel){
-    let newPath = this.apiUrl + "auth/register"
+    let newPath = this.apiUrl + "/register"
     this.httpClient
     .post<SingleResponseModel<TokenModel>>(newPath,registerModel).subscribe(response => {
       if(response.success){

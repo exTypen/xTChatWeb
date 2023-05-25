@@ -9,12 +9,12 @@ import { Observable } from 'rxjs';
 })
 export class MessageService {
 
-  apiUrl = "https://localhost:7165/api/messages/"
+  apiUrl = "api/messages"
 
   constructor(private httpClient:HttpClient) { }
 
   sendMessage(message:Message):Observable<ResponseModel>{
-    let url = this.apiUrl + "add"
+    let url = this.apiUrl + "/add"
     return this.httpClient.post<ResponseModel>(url, message)
   }
 }

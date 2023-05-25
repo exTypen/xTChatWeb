@@ -11,14 +11,6 @@ body{margin-top:20px;}
     transform: translateX(-50%);
   }
 
-.chat-online {
-    color: #34ce57
-}
-
-.chat-offline {
-    color: #e4606d
-}
-
 .chat-messages {
     display: flex;
     flex-direction: column;

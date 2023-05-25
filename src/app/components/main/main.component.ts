@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Chat } from 'src/app/models/chat';
 import { Message } from 'src/app/models/message';
@@ -13,7 +13,8 @@ import { io } from 'socket.io-client';
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
-  chats:Chat[] = []
+  @ViewChild('scrollContainer') scrollContainer: ElementRef;
+  chats?:Chat[] = []
   currentChat:Chat
   userId:number
   messageForm:FormGroup
@@ -23,22 +24,26 @@ export class MainComponent implements OnInit {
     private formBuilder:FormBuilder,
     private authService: AuthService) { }
 
-  ngOnInit(): void {
-    this.getChats()
+  async ngOnInit() {
+    setInterval(() => {
+      this.getChats();
+    }, 1000);
     this.createMessageForm()
     this.userId = this.authService.getUserId();    
-    this.socket = io('http://localhost:3000');
-    this.socket.on('message', (message: string) => {
-      this.getChats()
-    });
-    
+    //this.socket = io('http://localhost:3000');
+    //this.socket.on('message', (message: string) => {
+    //  this.getChats()
+    //});
   }
 
-  getChats(){
-    this.chatService.getAllDtos().subscribe((response)=>{
-      this.chats = response.data
-      this.currentChat = this.chats[0]
-    })
+  scrollToBottom() {
+    const container = this.scrollContainer.nativeElement;
+    container.scrollTop = container.scrollHeight;
+  }
+
+  async getChats(){
+    this.chats = (await this.chatService.getAllDtos().toPromise())?.data
+    this.currentChat = this.chats![0]
   }
 
   createMessageForm() {
@@ -51,7 +56,8 @@ export class MainComponent implements OnInit {
     if(this.messageForm.valid){
       let messageModel:Message = Object.assign({chatId: this.currentChat.id}, this.messageForm.value)
       this.messageService.sendMessage(messageModel).subscribe()
-      this.socket.emit('message', "update");
+      //this.socket.emit('message', "update");
+      this.getChats()
     }
   }
 
@@ -65,6 +71,13 @@ export class MainComponent implements OnInit {
       return "chat-message-right pb-4"
     }
     return "chat-message-left pb-4"
+  }
+
+  messageBoxStyle(userId:number){
+    if (userId == this.userId){
+      return "margin-right: 10px; background-color:#f2f2f2"
+    }
+    return "margin-left: 10px; background-color:#f2f2f2"
   }
 
   showDate(message:Message){  
