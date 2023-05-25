@@ -13,11 +13,11 @@ import { MessageService } from 'src/app/services/message.service';
 })
 export class MainComponent implements OnInit {
   @ViewChild('scrollContainer') scrollContainer: ElementRef;
+  @ViewChild('textarea') textarea: ElementRef;
   chats?:Chat[] = []
   currentChat:Chat
   userId:number
   messageForm:FormGroup
-  socket: any;
   constructor(private chatService: ChatService,
     private messageService: MessageService,
     private formBuilder:FormBuilder,
@@ -29,10 +29,6 @@ export class MainComponent implements OnInit {
     }, 1000);
     this.createMessageForm()
     this.userId = this.authService.getUserId();    
-    //this.socket = io('http://localhost:3000');
-    //this.socket.on('message', (message: string) => {
-    //  this.getChats()
-    //});
   }
 
   scrollToBottom() {
@@ -55,7 +51,7 @@ export class MainComponent implements OnInit {
     if(this.messageForm.valid){
       let messageModel:Message = Object.assign({chatId: this.currentChat.id}, this.messageForm.value)
       this.messageService.sendMessage(messageModel).subscribe()
-      //this.socket.emit('message', "update");
+      this.textarea.nativeElement.value = ""
       this.getChats()
     }
   }
