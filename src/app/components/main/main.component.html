@@ -1,101 +1,73 @@
 <div class="row g-0" style="height: 100%">
-  <div class="col-12 col-lg-5 col-xl-3 border-right">
-    <div
-      (click)="selectChat(chat)"
-      *ngFor="let chat of chats"
-      class="list-group-item list-group-item-action border-0"
-      style="cursor: pointer"
-    >
-      <div style="margin-bottom: 10px;" class="card">
-        <div style="margin: 5px;" class="d-flex align-items-start">
-          <img
-            src="https://www.yeniliknakliyat.com/wp-content/uploads/2022/01/pp.png"
-            class="rounded-circle mr-1"
-            width="40"
-            height="40"
-          />
-          <div class="flex-grow-1 ml-3">
-            {{ chat.displayName }}
+  <div [style]="panelStyle()" class="col-12 col-lg-5 col-xl-3 border-right">
+      <div (click)="selectChat(chat)" *ngFor="let chat of chats" class="list-group-item list-group-item-action border-0"style="cursor: pointer">
+          <div style="margin-bottom: 10px" class="card">
+              <div style="margin: 5px" class="d-flex align-items-start">
+                  <img src="https://www.yeniliknakliyat.com/wp-content/uploads/2022/01/pp.png" class="rounded-circle mr-1" width="40" height="40"/>
+                  <div class="flex-grow-1 ml-3">
+                      {{ chat.displayName }}
+                  </div>
+                  <div style="margin-right: 10px">
+                      {{ chatLastUpdate(chat) }}
+                  </div>
+              </div>
           </div>
-          <div style="margin-right: 10px;">
-            {{chatLastUpdate(chat)}}
-          </div>
-        </div>
       </div>
-    </div>
-
-    <hr class="d-block d-lg-none mt-1 mb-0" />
+      <hr class="d-block d-lg-none mt-1 mb-0" />
   </div>
   <div *ngIf="currentChatIndex != null" class="col-12 col-lg-7 col-xl-9">
-    <div class="py-2 px-4 border-bottom d-none d-lg-block">
-      <div class="d-flex align-items-center py-1">
-        <div class="position-relative">
-          <img
-            src="https://www.yeniliknakliyat.com/wp-content/uploads/2022/01/pp.png"
-            class="rounded-circle mr-1"
-            width="40"
-            height="40"
-          />
-        </div>
-        <div style="margin-left: 10px;" class="flex-grow-1 pl-3">
-          <strong>{{ chats![currentChatIndex].displayName }}</strong>
-        </div>
-      </div>
-    </div>
-
-    <div class="position-relative" >
-      <div
-        style="overflow-y: scroll; max-height: 600px"
-        class="chat-messages p-4"
-        #scrollContainer
-      >
-        <div style="padding: 2px 8px;
-        background-color: #00a6ff;
-        border-radius: 15px;
-        color: white;
-        display: inline-block;
-        position: relative;
-        left: 48%;
-        transform: translateX(-48%);
-        margin-bottom: 15px;" *ngIf="chats![currentChatIndex].messages.length == 0">Mesajlarınız uçtan uca şifreli değildir. Gerekirse herkes mesajlarınızı görebilir.</div>
-        <div *ngFor="let message of chats![currentChatIndex].messages">
-          <div class="date" *ngIf="showDate(message)">{{ turnDate(message.sendTime).getDate() + " " + turnDate(message.sendTime).toLocaleDateString('tr-TR', { month: 'long'}) }}</div>
-          <div [class]="messageBoxClass(message.senderId)">
-            <div>
-              <img *ngIf="chats![currentChatIndex].chatType.id == 2"
-                src="https://www.yeniliknakliyat.com/wp-content/uploads/2022/01/pp.png"
-                class="rounded-circle mr-1"
-                width="40"
-                height="40"
-              />
-              <div class="text-muted small text-nowrap mt-2">
-                {{ message.sendTime | date : "HH:mm" }}
+      <div class="py-2 px-4 border-bottom d-lg-block">
+          <div class="d-flex align-items-center py-1">
+              <div style="margin-right: 20px; cursor: pointer" (click)="clearChat()"> geri </div>
+              <div class="position-relative">
+                  <img src="https://www.yeniliknakliyat.com/wp-content/uploads/2022/01/pp.png" class="rounded-circle mr-1" width="40" height="40"/>
               </div>
-            </div>
-            <div [style]="messageBoxStyle(message.senderId)" class="flex-shrink-1 rounded py-2 px-3 mr-3">
-              <div style="font-weight: 600; color: #00a6ff;" *ngIf="chats![currentChatIndex].chatType.id == 2 && message.senderId != userId">{{message.senderFirstName + " " + message.senderLastName}}</div>
-              {{ message.text }}
-            </div>
+              <div style="margin-left: 10px" class="flex-grow-1 pl-3">
+                  <strong>{{ chats![currentChatIndex].displayName }}</strong>
+              </div>
           </div>
-
-          
-        </div>
       </div>
-    </div>
-
-    <div style="position: fixed; width:75%; bottom:0; " class="flex-grow-0 py-3 px-4 border-top">
-      <form [formGroup]="messageForm">
-        <div class="input-group">
-          <input
-            type="text"
-            class="form-control"
-            formControlName="text"
-            placeholder="Mesajınızı yazın"
-            #textarea
-          />
-          <button style="background-color: #00a6ff;" (click)="sendMessage()" class="btn btn-primary">></button>
-        </div>
-      </form>
-    </div>
+      <div class="position-relative">
+          <div style="overflow-y: scroll;" class="chat-messages p-4" #scrollContainer>
+              <div style="padding: 2px 8px;background-color: #00a6ff;border-radius: 15px;color: white;display: inline-block;position: relative;left: 48%;transform: translateX(-48%);margin-bottom: 15px;" *ngIf="chats![currentChatIndex].messages.length == 0">
+                  Mesajlarınız uçtan uca şifreli değildir. Gerekirse herkes mesajlarınızı görebilir.
+              </div>
+              <div *ngFor="let message of chats![currentChatIndex].messages">
+                  <div class="date" *ngIf="showDate(message)">
+                      {{
+                        turnDate(message.sendTime).getDate() +
+                          " " +
+                          turnDate(message.sendTime).toLocaleDateString("tr-TR", {
+                            month: "long"
+                          })
+                      }}
+                  </div>
+                  <div [class]="messageBoxClass(message.senderId)">
+                      <div>
+                          <img *ngIf="chats![currentChatIndex].chatType.id == 2" src="https://www.yeniliknakliyat.com/wp-content/uploads/2022/01/pp.png" class="rounded-circle mr-1" width="40" height="40"/>
+                          <div class="text-muted small text-nowrap mt-2">
+                              {{ message.sendTime | date : "HH:mm" }}
+                          </div>
+                      </div>
+                      <div [style]="messageBoxStyle(message.senderId)" class="flex-shrink-1 rounded py-2 px-3 mr-3">
+                          <div style="font-weight: 600; color: #00a6ff" *ngIf="chats![currentChatIndex].chatType.id == 2 && message.senderId != userId">
+                              {{ message.senderFirstName + " " + message.senderLastName }}
+                          </div>
+                          {{ message.text }}
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div [style]="textAreaStyle()" class="flex-grow-0 py-3 px-4 border-top">
+          <form [formGroup]="messageForm">
+              <div class="input-group">
+                <input type="text" class="form-control" formControlName="text" placeholder="Mesajınızı yazın" #textarea/>
+                <button style="background-color: #00a6ff" (click)="sendMessage()" class="btn btn-primary">
+                  gönder
+                </button>
+              </div>
+          </form>
+      </div>
   </div>
 </div>
