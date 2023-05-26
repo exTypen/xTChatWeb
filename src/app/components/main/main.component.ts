@@ -38,7 +38,9 @@ export class MainComponent implements OnInit {
 
   async getChats(){
     this.chats = (await this.chatService.getAllDtos().toPromise())?.data
-    this.currentChat = this.chats![0]
+    if (this.currentChat == null) {
+      this.currentChat = this.chats![0]
+    }
   }
 
   createMessageForm() {
@@ -47,11 +49,23 @@ export class MainComponent implements OnInit {
     });
   }
 
+  chatLastUpdate(chat:Chat):string{
+    //console.log(new Date(chat.lastUpdate).getDate());
+    
+    if (new Date(chat.lastUpdate).getDate() == new Date().getDate()) {
+      return new Date(chat.lastUpdate).getHours().toString() + ":" + new Date(chat.lastUpdate).getMinutes()
+    }else if(new Date(chat.lastUpdate).getDate() + 1 == new Date().getDate()){
+      return "Dün"
+    }
+    return new Date(chat.lastUpdate).getDate().toString() + "/" + new Date(chat.lastUpdate).getMonth().toString()
+  }
+
   sendMessage(){
     if(this.messageForm.valid){
       let messageModel:Message = Object.assign({chatId: this.currentChat.id}, this.messageForm.value)
       this.messageService.sendMessage(messageModel).subscribe()
       this.textarea.nativeElement.value = ""
+      this.messageForm.value.text = ""
       this.getChats()
     }
   }

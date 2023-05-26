@@ -6,8 +6,8 @@
       class="list-group-item list-group-item-action border-0"
       style="cursor: pointer"
     >
-      <div class="card">
-        <div class="d-flex align-items-start">
+      <div style="margin-bottom: 10px;" class="card">
+        <div style="margin: 5px;" class="d-flex align-items-start">
           <img
             src="https://www.yeniliknakliyat.com/wp-content/uploads/2022/01/pp.png"
             class="rounded-circle mr-1"
@@ -17,8 +17,8 @@
           <div class="flex-grow-1 ml-3">
             {{ chat.displayName }}
           </div>
-          <div>
-            {{ chat.lastUpdate | date : "HH:mm" }}
+          <div style="margin-right: 10px;">
+            {{chatLastUpdate(chat)}}
           </div>
         </div>
       </div>
@@ -64,6 +64,7 @@
               </div>
             </div>
             <div [style]="messageBoxStyle(message.senderId)" class="flex-shrink-1 rounded py-2 px-3 mr-3">
+              <div style="font-weight: 600; color: #00a6ff;" *ngIf="currentChat.chatType.id == 2">Yasir Kılınç</div>
               {{ message.text }}
             </div>
           </div>
@@ -83,7 +84,7 @@
             placeholder="Mesajınızı yazın"
             #textarea
           />
-          <button (click)="sendMessage()" class="btn btn-primary">></button>
+          <button style="background-color: #00a6ff;" (click)="sendMessage()" class="btn btn-primary">></button>
         </div>
       </form>
     </div>

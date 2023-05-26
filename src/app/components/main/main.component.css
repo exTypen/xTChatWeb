@@ -2,13 +2,13 @@ body{margin-top:20px;}
 
 .date {
     padding: 2px 8px;
-    background-color: #b3b3b3;
+    background-color: #00a6ff;
     border-radius: 15px;
     color: white;
     display: inline-block;
     position: relative;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 48%;
+    transform: translateX(-48%);
   }
 
 .chat-messages {
