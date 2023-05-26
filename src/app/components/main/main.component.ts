@@ -62,10 +62,10 @@ export class MainComponent implements OnInit {
 
   sendMessage(){
     if(this.messageForm.valid){
-      let messageModel:Message = Object.assign({chatId: this.currentChat.id}, this.messageForm.value)
-      this.messageService.sendMessage(messageModel).subscribe()
       this.textarea.nativeElement.value = ""
       this.messageForm.value.text = ""
+      let messageModel:Message = Object.assign({chatId: this.currentChat.id}, this.messageForm.value)
+      this.messageService.sendMessage(messageModel).subscribe()
       this.getChats()
     }
   }

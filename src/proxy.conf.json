@@ -1,6 +1,6 @@
 {
     "/api/*":{
-      "target": "http://84.252.81.26:1450/api",
+      "target": "https://localhost:7165/api",
       "secure": false,
       "changeOrigin": true,
       "pathRewrite": {

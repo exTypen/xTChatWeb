@@ -9,6 +9,7 @@ body{margin-top:20px;}
     position: relative;
     left: 48%;
     transform: translateX(-48%);
+    margin-bottom: 15px;
   }
 
 .chat-messages {
