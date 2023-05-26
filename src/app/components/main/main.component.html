@@ -26,7 +26,7 @@
 
     <hr class="d-block d-lg-none mt-1 mb-0" />
   </div>
-  <div *ngIf="currentChat" class="col-12 col-lg-7 col-xl-9">
+  <div *ngIf="currentChatIndex != null" class="col-12 col-lg-7 col-xl-9">
     <div class="py-2 px-4 border-bottom d-none d-lg-block">
       <div class="d-flex align-items-center py-1">
         <div class="position-relative">
@@ -38,7 +38,7 @@
           />
         </div>
         <div style="margin-left: 10px;" class="flex-grow-1 pl-3">
-          <strong>{{ currentChat.displayName }}</strong>
+          <strong>{{ chats![currentChatIndex].displayName }}</strong>
         </div>
       </div>
     </div>
@@ -57,12 +57,12 @@
         position: relative;
         left: 48%;
         transform: translateX(-48%);
-        margin-bottom: 15px;" *ngIf="currentChat.messages.length == 0">Mesajlarınız uçtan uca şifreli değildir. Gerekirse herkes mesajlarınızı görebilir.</div>
-        <div *ngFor="let message of currentChat.messages">
+        margin-bottom: 15px;" *ngIf="chats![currentChatIndex].messages.length == 0">Mesajlarınız uçtan uca şifreli değildir. Gerekirse herkes mesajlarınızı görebilir.</div>
+        <div *ngFor="let message of chats![currentChatIndex].messages">
           <div class="date" *ngIf="showDate(message)">{{ turnDate(message.sendTime).getDate() + " " + turnDate(message.sendTime).toLocaleDateString('tr-TR', { month: 'long'}) }}</div>
           <div [class]="messageBoxClass(message.senderId)">
             <div>
-              <img *ngIf="currentChat.chatType.id == 2"
+              <img *ngIf="chats![currentChatIndex].chatType.id == 2"
                 src="https://www.yeniliknakliyat.com/wp-content/uploads/2022/01/pp.png"
                 class="rounded-circle mr-1"
                 width="40"
@@ -73,7 +73,7 @@
               </div>
             </div>
             <div [style]="messageBoxStyle(message.senderId)" class="flex-shrink-1 rounded py-2 px-3 mr-3">
-              <div style="font-weight: 600; color: #00a6ff;" *ngIf="currentChat.chatType.id == 2 && message.senderId != userId">{{message.senderFirstName + " " + message.senderLastName}}</div>
+              <div style="font-weight: 600; color: #00a6ff;" *ngIf="chats![currentChatIndex].chatType.id == 2 && message.senderId != userId">{{message.senderFirstName + " " + message.senderLastName}}</div>
               {{ message.text }}
             </div>
           </div>

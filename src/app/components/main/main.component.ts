@@ -15,7 +15,7 @@ export class MainComponent implements OnInit {
   @ViewChild('scrollContainer') scrollContainer: ElementRef;
   @ViewChild('textarea') textarea: ElementRef;
   chats?:Chat[] = []
-  currentChat:Chat
+  currentChatIndex:number
   userId:number
   messageForm:FormGroup
   constructor(private chatService: ChatService,
@@ -38,8 +38,8 @@ export class MainComponent implements OnInit {
 
   async getChats(){
     this.chats = (await this.chatService.getAllDtos().toPromise())?.data
-    if (this.currentChat == null) {
-      this.currentChat = this.chats![0]
+    if (this.currentChatIndex == null) {
+      this.currentChatIndex = 0
     }
   }
 
@@ -50,8 +50,6 @@ export class MainComponent implements OnInit {
   }
 
   chatLastUpdate(chat:Chat):string{
-    //console.log(new Date(chat.lastUpdate).getDate());
-    
     if (new Date(chat.lastUpdate).getDate() == new Date().getDate()) {
       return new Date(chat.lastUpdate).getHours().toString() + ":" + new Date(chat.lastUpdate).getMinutes()
     }else if(new Date(chat.lastUpdate).getDate() + 1 == new Date().getDate()){
@@ -62,16 +60,19 @@ export class MainComponent implements OnInit {
 
   sendMessage(){
     if(this.messageForm.valid){
+      let messageModel:Message = Object.assign({chatId: this.chats![this.currentChatIndex].id}, this.messageForm.value)
+      console.log(this.messageForm);      this.messageForm.value.text = ""
       this.textarea.nativeElement.value = ""
-      this.messageForm.value.text = ""
-      let messageModel:Message = Object.assign({chatId: this.currentChat.id}, this.messageForm.value)
       this.messageService.sendMessage(messageModel).subscribe()
       this.getChats()
     }
   }
 
   selectChat(chat:Chat){
-    this.currentChat = chat
+    this.currentChatIndex = this.chats!.findIndex(c=>c.id == chat.id)
+    console.log(this.chats![this.currentChatIndex]);
+    
+    
   }
 
 
@@ -90,9 +91,9 @@ export class MainComponent implements OnInit {
   }
 
   showDate(message:Message){  
-    if(this.currentChat.messages.findIndex(m=>m.id == message.id) == 0){
+    if(this.chats![this.currentChatIndex].messages.findIndex(m=>m.id == message.id) == 0){
       return true
-    }else if(new Date(message.sendTime).getDate() != new Date(this.currentChat.messages[this.currentChat.messages.findIndex(m=>m.id == message.id) -1 ].sendTime).getDate()){
+    }else if(new Date(message.sendTime).getDate() != new Date(this.chats![this.currentChatIndex].messages[this.chats![this.currentChatIndex].messages.findIndex(m=>m.id == message.id) -1 ].sendTime).getDate()){
       return true
     }
     return false
