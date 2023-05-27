@@ -64,6 +64,7 @@ export class MainComponent implements OnInit {
       this.textarea.nativeElement.value = ""
       this.messageService.sendMessage(messageModel).subscribe()
       this.getChats()
+      this.currentChatIndex = 0
     }
   }
 
