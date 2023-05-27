@@ -54,7 +54,7 @@ export class MainComponent implements OnInit {
     } else if (new Date(chat.lastUpdate).getDate() + 1 == new Date().getDate()) {
       return "Dün"
     }
-    return new Date(chat.lastUpdate).getDate().toString() + "/" + new Date(chat.lastUpdate).getMonth().toString()
+    return new Date(chat.lastUpdate).getDate().toString() + "/" + (new Date(chat.lastUpdate).getMonth() + 1).toString()
   }
 
   sendMessage() {

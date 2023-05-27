@@ -1,18 +1,35 @@
 <div class="row g-0" style="height: 100%">
   <div [style]="panelStyle()" class="col-12 col-lg-5 col-xl-3 border-right">
-      <div (click)="selectChat(chat)" *ngFor="let chat of chats" class="list-group-item list-group-item-action border-0"style="cursor: pointer">
-          <div style="margin-bottom: 10px" class="card">
-              <div style="margin: 5px" class="d-flex align-items-start">
-                  <img src="https://www.yeniliknakliyat.com/wp-content/uploads/2022/01/pp.png" class="rounded-circle mr-1" width="40" height="40"/>
-                  <div class="flex-grow-1 ml-3">
-                      {{ chat.displayName }}
-                  </div>
-                  <div style="margin-right: 10px">
-                      {{ chatLastUpdate(chat) }}
-                  </div>
-              </div>
-          </div>
-      </div>
+        <div class="py-2 px-4 border-bottom d-lg-block" style="background-color: #f2f2f2;">
+            <div class="d-flex align-items-center py-1">
+                <div class="position-relative">
+                    <img src="https://www.yeniliknakliyat.com/wp-content/uploads/2022/01/pp.png" class="rounded-circle mr-1" width="40" height="40"/>
+                </div>
+                <div style="margin-left: 10px" class="flex-grow-1 pl-3">
+                    <strong>Yasir Kılınç(Ben)</strong>
+                </div>
+            </div>
+        </div>
+
+        <div >
+            <div class="input-group">
+                <input style="border-right: 0px; border-left: 0px; border-radius: 0;" type="text" class="form-control" placeholder="Sohbet arayın veya başlatın"/>
+            </div>
+        </div>
+
+        <div (click)="selectChat(chat)" *ngFor="let chat of chats" class="py-2 px-4 border-bottom d-lg-block" style="cursor: pointer;">
+            <div class="d-flex align-items-center py-1">
+                <div class="position-relative">
+                    <img src="https://www.yeniliknakliyat.com/wp-content/uploads/2022/01/pp.png" class="rounded-circle mr-1" width="40" height="40"/>
+                </div>
+                <div style="margin-left: 10px" class="flex-grow-1 pl-3">
+                    {{ chat.displayName }}
+                </div>
+                <div>
+                    {{chatLastUpdate(chat)}}
+                </div>
+            </div>
+        </div>
       <hr class="d-block d-lg-none mt-1 mb-0" />
   </div>
   <div *ngIf="currentChatIndex != null" class="col-12 col-lg-7 col-xl-9">
