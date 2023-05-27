@@ -1,0 +1,35 @@
+<body>
+  <div class="wrapper">
+    <div class="title">
+       xTChat
+    </div>
+    <form [formGroup]="registerForm">
+       <div class="field">
+          <input type="text" required formControlName="userName">
+          <label>Kullanıcı Adı</label>
+       </div>
+       <div class="field">
+        <input type="text" required formControlName="firstName">
+        <label>İsim</label>
+      </div>
+      <div class="field">
+        <input type="text" required formControlName="lastName">
+        <label>Soy İsim</label>
+      </div>
+       <div class="field">
+          <input type="password" required formControlName="password">
+          <label>Şifre</label>
+       </div>
+       <div class="field">
+        <input type="password" required formControlName="passwordAgain">
+        <label>Şifre Tekrar</label>
+     </div>
+       <div class="field">
+          <input (click)="register()" type="submit" value="Kayıt Ol">
+       </div>
+       <div class="signup-link">
+          Hesabınız var mı? <a style="cursor: pointer;" (click)="routeLogin()">Giriş Yap</a>
+       </div>
+    </form>
+  </div>
+</body>

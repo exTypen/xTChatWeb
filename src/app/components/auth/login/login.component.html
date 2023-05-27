@@ -1,42 +1,23 @@
-<div class="container">
-    <div class="container">
-        <body class="text-center">
-          <main class="form-signin">
-            <form [formGroup]="loginForm">
-              <h1 class="h3 mb-3 fw-normal">Giriş Yapın</h1>
-      
-              <div class="form-floating">
-                <input
-                  formControlName="userName"
-                  type="email"
-                  class="form-control"
-                  id="floatingInput"
-                  placeholder="name@example.com"
-                />
-                <label for="floatingInput">Kullanıcı Adı</label>
-              </div>
-              <div class="form-floating">
-                <input
-                  formControlName="password"
-                  type="password"
-                  class="form-control"
-                  id="floatingPassword"
-                  placeholder="Password"
-                />
-                <label for="floatingPassword">Şifre</label>
-              </div>
-      
-              <button
-                class="w-100 btn btn-lg btn-primary"
-                type="submit"
-                (click)="login()"
-              >
-                Giriş Yap
-              </button>
-              <p class="mt-5 mb-3 text-muted">exTypen–2023</p>
-            </form>
-          </main>
-        </body>
-      </div>
-      
-</div>
+<body>
+  <div class="wrapper">
+    <div class="title">
+       xTChat
+    </div>
+    <form [formGroup]="loginForm">
+       <div class="field">
+          <input type="text" formControlName="userName" required>
+          <label>Kullanıcı Adı</label>
+       </div>
+       <div class="field">
+          <input type="password" formControlName="password" required>
+          <label>Şifre</label>
+       </div>
+       <div class="field">
+          <input (click)="login()" type="submit" value="Kayıt">
+       </div>
+       <div class="signup-link">
+          Hesabınız yok mu? <a style="cursor: pointer;" (click)="routeRegister()">Kayıt ol</a>
+       </div>
+    </form>
+  </div>
+</body>

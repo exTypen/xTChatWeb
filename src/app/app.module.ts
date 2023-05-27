@@ -14,6 +14,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import { MainComponent } from './components/main/main.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { RegisterComponent } from './components/auth/register/register.component';
 
 
 export function tokenGetter() {
@@ -25,7 +26,8 @@ export function tokenGetter() {
   declarations: [
     AppComponent,
     LoginComponent,
-    MainComponent
+    MainComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { LoginModel } from 'src/app/models/auth-models/loginModel';
 import { AuthService } from 'src/app/services/auth.service';
@@ -14,7 +15,8 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   constructor(private formBuilder: FormBuilder,
               private authService: AuthService,
-              private toastrService: ToastrService) { }
+              private toastrService: ToastrService,
+              private router: Router) { }
 
   ngOnInit(): void {
     this.createLoginForm()
@@ -34,5 +36,9 @@ export class LoginComponent implements OnInit {
     }else{
       this.toastrService.warning("Tüm alanları doldurun","Dikkat")
     }
+  }
+
+  routeRegister(){
+    this.router.navigate(["register"])
   }
 }

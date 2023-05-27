@@ -62,6 +62,7 @@ export class AuthService {
         setTimeout(function(){
           location.reload()
         },400)
+        this.router.navigate(["/"])
       }
     },responseError => {
       this.toastrService.error(responseError.error.message,"Hata")
