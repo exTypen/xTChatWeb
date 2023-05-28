@@ -16,10 +16,14 @@
 
         <span class="p-input-icon-left d-flex">
             <i class="pi pi-search"></i>
-            <input style="border-left: 0; border-right: 0; border-radius: 0;" class="w-100" type="text" pInputText [(ngModel)]="searchValue" placeholder="Sohbetlerinizi arayın" />
+            <input style="border-left: 0; border-right: 0; border-radius: 0;" class="w-100" type="text" pInputText [(ngModel)]="searchValue" placeholder="Sohbet arayın veya oluşturun" />
         </span>
 
-        <div (click)="selectChat(chat)" *ngFor="let chat of chats" class="py-2 px-4 border-bottom d-lg-block" style="cursor: pointer;">
+        <div *ngIf="searchValue != ''" class="py-2 px-4 border-bottom d-lg-block" style="cursor: pointer;">
+            <div (click)="newDm()">@{{searchValue}} ile sohbet başlat</div>
+        </div>
+
+        <div (click)="selectChat(chat)" *ngFor="let chat of chats! | chatFilter: searchValue" class="py-2 px-4 border-bottom d-lg-block" style="cursor: pointer;">
             <div class="d-flex align-items-center py-1">
                 <div class="position-relative">
                     <img src="https://www.yeniliknakliyat.com/wp-content/uploads/2022/01/pp.png" class="rounded-circle mr-1" width="40" height="40"/>
@@ -34,59 +38,64 @@
         </div>
       <hr class="d-block d-lg-none mt-1 mb-0" />
   </div>
-  <div *ngIf="currentChatIndex != null" class="col-12 col-lg-7 col-xl-9">
-      <div class="py-2 px-4 border-bottom d-lg-block">
-          <div class="d-flex align-items-center py-1">
-              <div style="margin-right: 20px; cursor: pointer" (click)="clearChat()"> <i class="pi pi-angle-left"></i> </div>
-              <div class="position-relative">
-                  <img src="https://www.yeniliknakliyat.com/wp-content/uploads/2022/01/pp.png" class="rounded-circle mr-1" width="40" height="40"/>
-              </div>
-              <div style="margin-left: 10px" class="flex-grow-1 pl-3">
-                  <strong>{{ chats![currentChatIndex].displayName }}</strong>
-              </div>
-          </div>
-      </div>
-      <div class="position-relative">
-          <div style="overflow-y: scroll;" class="chat-messages p-4" #scrollContainer>
-              <div style="padding: 2px 8px;background-color: #00a6ff;border-radius: 15px;color: white;display: inline-block;position: relative;left: 48%;transform: translateX(-48%);margin-bottom: 15px;" *ngIf="chats![currentChatIndex].messages.length == 0">
-                  Mesajlarınız uçtan uca şifreli değildir. Gerekirse herkes mesajlarınızı görebilir.
-              </div>
-              <div *ngFor="let message of chats![currentChatIndex].messages">
-                  <div class="date" *ngIf="showDate(message)">
-                      {{
-                        turnDate(message.sendTime).getDate() +
-                          " " +
-                          turnDate(message.sendTime).toLocaleDateString("tr-TR", {
-                            month: "long"
-                          })
-                      }}
-                  </div>
-                  <div [class]="messageBoxClass(message.senderId)">
-                      <div>
-                          <img *ngIf="chats![currentChatIndex].chatType.id == 2" src="https://www.yeniliknakliyat.com/wp-content/uploads/2022/01/pp.png" class="rounded-circle mr-1" width="40" height="40"/>
-                          <div class="text-muted small text-nowrap mt-2">
-                              {{ message.sendTime | date : "HH:mm" }}
-                          </div>
-                      </div>
-                      <div [style]="messageBoxStyle(message.senderId)" class="flex-shrink-1 rounded py-2 px-3 mr-3">
-                          <div style="font-weight: 600; color: #00a6ff" *ngIf="chats![currentChatIndex].chatType.id == 2 && message.senderId != userId">
-                              {{ message.senderFirstName + " " + message.senderLastName }}
-                          </div>
-                          {{ message.text }}
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-      <div [style]="textAreaStyle()" class="flex-grow-0 py-3 px-4 border-top">
-          <form [formGroup]="messageForm">
-              <div class="input-group">
-                <input type="text" class="form-control" formControlName="text" placeholder="Mesajınızı yazın" #textarea/>
-                <button style="background-color: #00a6ff; border-color: #00a6ff;" (click)="sendMessage()" class="btn btn-primary">
-                    <i class="pi pi-send"></i>
-                </button>
-              </div>
-          </form>
+  <div *ngIf="!isUser" class="col-12 col-lg-7 col-xl-9">
+    kullanıcı bulunamadı
+  </div>
+  <div *ngIf="currentChatIndex != null && isUser" class="col-12 col-lg-7 col-xl-9">
+      
+        <div class="py-2 px-4 border-bottom d-lg-block">
+            <div class="d-flex align-items-center py-1">
+                <div style="margin-right: 20px; cursor: pointer" (click)="clearChat()"> <i class="pi pi-angle-left"></i> </div>
+                <div class="position-relative">
+                    <img src="https://www.yeniliknakliyat.com/wp-content/uploads/2022/01/pp.png" class="rounded-circle mr-1" width="40" height="40"/>
+                </div>
+                <div style="margin-left: 10px" class="flex-grow-1 pl-3">
+                    <strong>{{ chats![currentChatIndex].displayName }}</strong>
+                </div>
+            </div>
+        </div>
+        <div class="position-relative">
+            <div style="overflow-y: scroll;" class="chat-messages p-4" #scrollContainer>
+                <div style="padding: 2px 8px;background-color: #00a6ff;border-radius: 15px;color: white;display: inline-block;position: relative;left: 48%;transform: translateX(-48%);margin-bottom: 15px;" *ngIf="chats![currentChatIndex].messages.length == 0">
+                    Mesajlarınız uçtan uca şifreli değildir. Gerekirse herkes mesajlarınızı görebilir.
+                </div>
+                <div *ngFor="let message of chats![currentChatIndex].messages">
+                    <div class="date" *ngIf="showDate(message)">
+                        {{
+                          turnDate(message.sendTime).getDate() +
+                            " " +
+                            turnDate(message.sendTime).toLocaleDateString("tr-TR", {
+                              month: "long"
+                            })
+                        }}
+                    </div>
+                    <div [class]="messageBoxClass(message.senderId)">
+                        <div>
+                            <img *ngIf="chats![currentChatIndex].chatType.id == 2" src="https://www.yeniliknakliyat.com/wp-content/uploads/2022/01/pp.png" class="rounded-circle mr-1" width="40" height="40"/>
+                            <div class="text-muted small text-nowrap mt-2">
+                                {{ message.sendTime | date : "HH:mm" }}
+                            </div>
+                        </div>
+                        <div [style]="messageBoxStyle(message.senderId)" class="flex-shrink-1 rounded py-2 px-3 mr-3">
+                            <div style="font-weight: 600; color: #00a6ff" *ngIf="chats![currentChatIndex].chatType.id == 2 && message.senderId != userId">
+                                {{ message.senderFirstName + " " + message.senderLastName }}
+                            </div>
+                            {{ message.text }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div [style]="textAreaStyle()" class="flex-grow-0 py-3 px-4 border-top">
+            <form [formGroup]="messageForm">
+                <div class="input-group">
+                  <input type="text" class="form-control" formControlName="text" placeholder="Mesajınızı yazın" #textarea/>
+                  <button style="background-color: #00a6ff; border-color: #00a6ff;" (click)="sendMessage()" class="btn btn-primary">
+                      <i class="pi pi-send"></i>
+                  </button>
+                </div>
+            </form>
       </div>
   </div>
+  
 </div>

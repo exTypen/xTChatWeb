@@ -21,7 +21,8 @@ export class MainComponent implements OnInit {
   userId: number
   messageForm: FormGroup
   me:User
-  searchValue:string
+  searchValue:string = ""
+  isUser:boolean = true
   constructor(private chatService: ChatService,
     private messageService: MessageService,
     private formBuilder: FormBuilder,
@@ -73,7 +74,20 @@ export class MainComponent implements OnInit {
     }
   }
 
+  newDm(){
+    this.chatService.createDm(this.searchValue).subscribe((response)=>{
+      if (response.success) {
+        this.searchValue = ""
+        this.isUser = true
+        this.currentChatIndex = 0
+      }
+    },(errorResponse)=>{
+      this.isUser = false
+    })
+  }
+
   selectChat(chat: Chat) {
+    this.isUser = true
     this.currentChatIndex = this.chats!.findIndex(c => c.id == chat.id)
   }
 

@@ -17,6 +17,7 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { RegisterComponent } from './components/auth/register/register.component';
 
 import { InputTextModule } from 'primeng/inputtext';
+import { ChatFilterPipe } from './pipes/chat-filter.pipe';
 
 
 export function tokenGetter() {
@@ -29,7 +30,8 @@ export function tokenGetter() {
     AppComponent,
     LoginComponent,
     MainComponent,
-    RegisterComponent
+    RegisterComponent,
+    ChatFilterPipe
   ],
   imports: [
     BrowserModule,
