@@ -16,6 +16,8 @@ import { MainComponent } from './components/main/main.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { RegisterComponent } from './components/auth/register/register.component';
 
+import { InputTextModule } from 'primeng/inputtext';
+
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -36,6 +38,7 @@ export function tokenGetter() {
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    InputTextModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter

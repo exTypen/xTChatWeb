@@ -10,6 +10,7 @@ import { LoginModel } from '../models/auth-models/loginModel';
 import { RegisterModel } from '../models/auth-models/registerModel';
 import { ListResponseModel } from '../models/response-models/listResponseModel';
 import { OperationClaim } from '../models/auth-models/operationClaim';
+import { User } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -67,6 +68,11 @@ export class AuthService {
     },responseError => {
       this.toastrService.error(responseError.error.message,"Hata")
     })
+  }
+
+  getMe(){
+    let url =  "api/users/getme"
+    return this.httpClient.get<SingleResponseModel<User>>(url)
   }
 
   isAuthenticated():boolean{

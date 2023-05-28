@@ -1,4 +1,4 @@
-<div class="row g-0" style="height: 100%">
+<div *ngIf="me" class="row g-0" style="height: 100%">
   <div [style]="panelStyle()" class="col-12 col-lg-5 col-xl-3 border-right">
         <div class="py-2 px-4 border-bottom d-lg-block" style="background-color: #f2f2f2;">
             <div class="d-flex align-items-center py-1">
@@ -6,16 +6,18 @@
                     <img src="https://www.yeniliknakliyat.com/wp-content/uploads/2022/01/pp.png" class="rounded-circle mr-1" width="40" height="40"/>
                 </div>
                 <div style="margin-left: 10px" class="flex-grow-1 pl-3">
-                    <strong>Yasir Kılınç(Ben)</strong>
+                    <strong>{{me.firstName + " " + me.lastName}}</strong><span><i class="pi pi-angle-down"></i></span>
+                </div>
+                <div>
+                    +
                 </div>
             </div>
         </div>
 
-        <div >
-            <div class="input-group">
-                <input style="border-right: 0px; border-left: 0px; border-radius: 0;" type="text" class="form-control" placeholder="Sohbet arayın veya başlatın"/>
-            </div>
-        </div>
+        <span class="p-input-icon-left d-flex">
+            <i class="pi pi-search"></i>
+            <input style="border-left: 0; border-right: 0; border-radius: 0;" class="w-100" type="text" pInputText [(ngModel)]="searchValue" placeholder="Sohbetlerinizi arayın" />
+        </span>
 
         <div (click)="selectChat(chat)" *ngFor="let chat of chats" class="py-2 px-4 border-bottom d-lg-block" style="cursor: pointer;">
             <div class="d-flex align-items-center py-1">
@@ -35,7 +37,7 @@
   <div *ngIf="currentChatIndex != null" class="col-12 col-lg-7 col-xl-9">
       <div class="py-2 px-4 border-bottom d-lg-block">
           <div class="d-flex align-items-center py-1">
-              <div style="margin-right: 20px; cursor: pointer" (click)="clearChat()"> geri </div>
+              <div style="margin-right: 20px; cursor: pointer" (click)="clearChat()"> <i class="pi pi-angle-left"></i> </div>
               <div class="position-relative">
                   <img src="https://www.yeniliknakliyat.com/wp-content/uploads/2022/01/pp.png" class="rounded-circle mr-1" width="40" height="40"/>
               </div>
@@ -80,8 +82,8 @@
           <form [formGroup]="messageForm">
               <div class="input-group">
                 <input type="text" class="form-control" formControlName="text" placeholder="Mesajınızı yazın" #textarea/>
-                <button style="background-color: #00a6ff" (click)="sendMessage()" class="btn btn-primary">
-                  gönder
+                <button style="background-color: #00a6ff; border-color: #00a6ff;" (click)="sendMessage()" class="btn btn-primary">
+                    <i class="pi pi-send"></i>
                 </button>
               </div>
           </form>

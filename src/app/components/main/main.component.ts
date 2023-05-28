@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { Chat } from 'src/app/models/chat';
 import { Message } from 'src/app/models/message';
+import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { ChatService } from 'src/app/services/chat.service';
 import { MessageService } from 'src/app/services/message.service';
@@ -19,6 +20,8 @@ export class MainComponent implements OnInit {
   currentChatIndex?: number
   userId: number
   messageForm: FormGroup
+  me:User
+  searchValue:string
   constructor(private chatService: ChatService,
     private messageService: MessageService,
     private formBuilder: FormBuilder,
@@ -31,6 +34,9 @@ export class MainComponent implements OnInit {
     }, 1000);
     this.createMessageForm()
     this.userId = this.authService.getUserId();
+    this.authService.getMe().subscribe((response)=>{
+       this.me = response.data
+    })
   }
 
   scrollToBottom() {
