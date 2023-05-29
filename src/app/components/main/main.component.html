@@ -1,15 +1,15 @@
-<div *ngIf="me" class="row g-0" style="height: 100%">
-  <div [style]="panelStyle()" class="col-12 col-lg-5 col-xl-3 border-right">
+<div *ngIf="me" class="row g-0" style="height: 100%;">
+  <div [style]="panelStyle()" class="col-12 col-lg-5 col-xl-3">
         <div class="py-2 px-4 border-bottom d-lg-block" style="background-color: #f2f2f2;">
             <div class="d-flex align-items-center py-1">
                 <div class="position-relative">
                     <img src="https://www.yeniliknakliyat.com/wp-content/uploads/2022/01/pp.png" class="rounded-circle mr-1" width="40" height="40"/>
                 </div>
                 <div style="margin-left: 10px" class="flex-grow-1 pl-3">
-                    <strong>{{me.firstName + " " + me.lastName}}</strong><span><i class="pi pi-angle-down"></i></span>
+                    <strong>{{me.firstName + " " + me.lastName}}</strong>
                 </div>
                 <div>
-                    +
+                    <i class="pi pi-angle-down"></i>
                 </div>
             </div>
         </div>
@@ -19,24 +19,27 @@
             <input style="border-left: 0; border-right: 0; border-radius: 0;" class="w-100" type="text" pInputText [(ngModel)]="searchValue" placeholder="Sohbet arayın veya oluşturun" />
         </span>
 
-        <div *ngIf="searchValue != ''" class="py-2 px-4 border-bottom d-lg-block" style="cursor: pointer;">
-            <div (click)="newDm()">@{{searchValue}} ile sohbet başlat</div>
-        </div>
-
-        <div (click)="selectChat(chat)" *ngFor="let chat of chats! | chatFilter: searchValue" class="py-2 px-4 border-bottom d-lg-block" style="cursor: pointer;">
-            <div class="d-flex align-items-center py-1">
-                <div class="position-relative">
-                    <img src="https://www.yeniliknakliyat.com/wp-content/uploads/2022/01/pp.png" class="rounded-circle mr-1" width="40" height="40"/>
-                </div>
-                <div style="margin-left: 10px" class="flex-grow-1 pl-3">
-                    {{ chat.displayName }}
-                </div>
-                <div>
-                    {{chatLastUpdate(chat)}}
+        <div class="chats">
+            <div *ngIf="searchValue != ''" class="py-2 px-4 border-bottom d-lg-block" style="cursor: pointer;">
+                <div (click)="newDm()">@{{searchValue}} ile sohbet başlat</div>
+            </div>
+    
+            <div (click)="selectChat(chat)" *ngFor="let chat of chats! | chatFilter: searchValue" class="py-2 px-4 border-bottom d-lg-block" style="cursor: pointer;">
+                <div class="d-flex align-items-center py-1">
+                    <div class="position-relative">
+                        <img src="https://www.yeniliknakliyat.com/wp-content/uploads/2022/01/pp.png" class="rounded-circle mr-1" width="40" height="40"/>
+                    </div>
+                    <div style="margin-left: 10px" class="flex-grow-1 pl-3">
+                        {{ chat.displayName }}
+                    </div>
+                    <div>
+                        {{chatLastUpdate(chat)}}
+                    </div>
                 </div>
             </div>
         </div>
-      <hr class="d-block d-lg-none mt-1 mb-0" />
+
+        
   </div>
   <div *ngIf="!isUser" class="col-12 col-lg-7 col-xl-9">
     kullanıcı bulunamadı

@@ -50,3 +50,8 @@ body{
 .border-top {
     border-top: 1px solid #dee2e6!important;
 }
+
+.chats{
+    overflow-y: scroll;
+    height: 86vh;
+}
