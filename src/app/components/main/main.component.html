@@ -58,7 +58,7 @@
             </div>
         </div>
         <div class="position-relative">
-            <div style="overflow-y: scroll;" class="chat-messages p-4" #scrollContainer>
+            <div style="overflow-y: scroll; scroll-behavior: smooth;" class="chat-messages p-4" #scrollContainer>
                 <div style="padding: 2px 8px;background-color: #00a6ff;border-radius: 15px;color: white;display: inline-block;position: relative;left: 48%;transform: translateX(-48%);margin-bottom: 15px;" *ngIf="chats![currentChatIndex].messages.length == 0">
                     Mesajlarınız uçtan uca şifreli değildir. Gerekirse herkes mesajlarınızı görebilir.
                 </div>

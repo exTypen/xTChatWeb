@@ -64,13 +64,17 @@ export class MainComponent implements OnInit {
     return new Date(chat.lastUpdate).getDate().toString() + "/" + (new Date(chat.lastUpdate).getMonth() + 1).toString()
   }
 
-  sendMessage() {
+  async sendMessage() {
     if (this.messageForm.valid) {
       let messageModel: Message = Object.assign({ chatId: this.chats![this.currentChatIndex!].id }, this.messageForm.value)
       this.messageForm.value.text = null
       this.textarea.nativeElement.value = ""
-      this.messageService.sendMessage(messageModel).subscribe()
+      await this.messageService.sendMessage(messageModel).toPromise()
       this.currentChatIndex = 0
+      await this.getChats()
+      setTimeout(() => {
+        this.scrollToBottom();
+      });
     }
   }
 
@@ -89,6 +93,9 @@ export class MainComponent implements OnInit {
   selectChat(chat: Chat) {
     this.isUser = true
     this.currentChatIndex = this.chats!.findIndex(c => c.id == chat.id)
+    setTimeout(() => {
+      this.scrollToBottom();
+    });
   }
 
   clearChat() {
