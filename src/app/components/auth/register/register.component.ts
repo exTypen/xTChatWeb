@@ -12,6 +12,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class RegisterComponent {
   registerForm: FormGroup
+  btnDisabled:Boolean = false
   constructor(private formBuilder: FormBuilder,
     private toasterService: ToastrService,
     private authService: AuthService,
@@ -34,6 +35,7 @@ export class RegisterComponent {
   register(){
     if (this.registerForm.valid) {
       if (this.registerForm.value.password == this.registerForm.value.passwordAgain) {
+        this.btnDisabled = true
         let registerModel: RegisterModel = Object.assign({userName:this.registerForm.value.userName, firstName:this.registerForm.value.firstName, lastName:this.registerForm.value.lastName, password:this.registerForm.value.password})
         this.authService.register(registerModel)
       }else{

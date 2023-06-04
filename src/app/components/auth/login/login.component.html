@@ -13,7 +13,7 @@
           <label>Şifre</label>
        </div>
        <div class="field">
-          <input (click)="login()" type="submit" value="Giriş Yap">
+          <input (click)="login()" [disabled]="btnDisabled" type="submit" value="Giriş Yap">
        </div>
        <div class="signup-link">
           Hesabınız yok mu? <a style="cursor: pointer;" (click)="routeRegister()">Kayıt ol</a>

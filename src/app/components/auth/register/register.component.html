@@ -25,7 +25,7 @@
         <label>Şifre Tekrar</label>
      </div>
        <div class="field">
-          <input (click)="register()" type="submit" value="Kayıt Ol">
+          <input (click)="register()" [disabled]="btnDisabled" type="submit" value="Kayıt Ol">
        </div>
        <div class="signup-link">
           Hesabınız var mı? <a style="cursor: pointer;" (click)="routeLogin()">Giriş Yap</a>

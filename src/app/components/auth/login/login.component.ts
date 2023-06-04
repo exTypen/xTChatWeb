@@ -13,6 +13,7 @@ import { AuthService } from 'src/app/services/auth.service';
 export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
+  btnDisabled:Boolean = false
   constructor(private formBuilder: FormBuilder,
               private authService: AuthService,
               private toastrService: ToastrService,
@@ -31,6 +32,7 @@ export class LoginComponent implements OnInit {
 
   login(){
     if(this.loginForm.valid){
+      this.btnDisabled = true
       let loginModel:LoginModel = Object.assign({}, this.loginForm.value)
       this.authService.login(loginModel)
     }else{
